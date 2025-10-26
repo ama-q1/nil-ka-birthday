@@ -238,6 +238,7 @@
       .actions{ min-height:auto; }
       .cake{ transform:scale(.9); }
     }
+    .toasts{ bottom: calc(16px + env(safe-area-inset-bottom)); right: calc(16px + env(safe-area-inset-right)); }
   </style>
 </head>
 <body class="theme-candy">
@@ -315,6 +316,14 @@
   </div>
 
   <script>
+    const IS_MOBILE = matchMedia('(pointer: coarse)').matches || innerWidth < 700;
+// Reduce effects on mobile to keep it smooth
+if (IS_MOBILE) {
+  // lower confetti pieces
+  confetti.length = 0;
+  confettiCount = 80;
+  for (let i=0;i<confettiCount;i++) confetti.push(makePiece());
+}
   // ---- Config ----
   const friendName = "Yashnil Gandu"; // Change this to your friend's name
   const displayName = friendName.split(" ")[0] || friendName;
@@ -590,6 +599,10 @@
         const line = roastLines[(Math.random()*roastLines.length)|0];
         if(Math.random() < 0.6) speak(line);
       }, 4500);
+      if (IS_MOBILE) {
+
+  document.body.classList.remove('shake');
+}
     }
 
     scrambleButtons(); scrambleInterval = setInterval(scrambleButtons, 1400);
@@ -769,3 +782,4 @@
   </script>
 </body>
 </html>
+
